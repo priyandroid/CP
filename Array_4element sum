@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+int all_distinct(pair<int,int> p1,pair<int,int> p2){
+    if(p1.first==p2.first||p1.first==p2.second ||p1.second==p2.first||p1.first==p2.second)
+    return 0;
+    return 1;
+}
+int main()
+{
+
+#ifndef ONLINE_JUDGE
+
+    // For getting input from input.txt file
+    freopen("practice_in.txt", "r", stdin);
+
+    // Printing the Output to output.txt file
+    freopen("practice_out.txt", "w", stdout);
+
+#endif
+    int n, x;
+    cin >> n>>x;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+    map<int, pair<int, int>> table;
+    for (int i = 0; i < n; i++)
+        for (int j = i + 1; j < n; j++)
+        {
+            int sum = a[i] + a[j];
+
+            table[sum] = make_pair(i, j);
+        }
+
+    for (auto it : table)
+    {
+        if (table.find(x - it.first) != table.end())
+        {
+            pair<int, int> p1 = table[x - it.first];
+            pair<int, int> p2 = it.second;
+            if(all_distinct(p1,p2)){
+            cout << p1.first << " " << p1.second << " " << p2.first << " " << p2.second;
+            break;
+            }
+        }
+    }
+    return 0;
+}
