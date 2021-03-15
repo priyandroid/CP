@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+
+#ifndef ONLINE_JUDGE
+
+    // For getting input from input.txt file
+    freopen("practice_in.txt", "r", stdin);
+
+    // Printing the Output to output.txt file
+    freopen("practice_out.txt", "w", stdout);
+
+#endif
+    int n,x=0;
+    cin>>n;
+    vector<int> a(n+2);
+    for(int i=0;i<n+2;i++){
+    cin>>a[i];
+    x^=a[i];
+    }
+    for(int i=1;i<=n;i++)
+    x^=i;
+   int num1=0,num2=0;
+    int pos=x&(~(x-1));
+    for(int i=0;i<n+2;i++){
+        if((a[i]&pos))
+        num1^=a[i];
+        else num2^=a[i];
+    }
+    for(int i=1;i<=n;i++){
+        if((i&pos))
+        num1^=i;
+        else num2^=i;
+    }
+    
+    
+    cout<<num1<<" "<<num2;
+    return 0;
+}
