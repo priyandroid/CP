@@ -1,0 +1,43 @@
+
+# include<bits/stdc++.h>
+using namespace std;
+void solve(int a[],int n){
+    int cnt=1,start=0;
+    for(int i=1;i<n;i++){
+        if(a[i]==a[start])cnt++;
+        else cnt--;
+        if(cnt<1){start=i;
+        cnt=1;
+        }
+    }
+    cnt=0;
+    for(int i=0;i<n;i++){
+        if(a[i]==a[start])cnt++;
+    }
+   if(cnt<n/2)cout<<"No majority element\n";
+   else cout<<a[start];
+       
+        
+    
+    
+    }
+   
+int main(){
+     #ifndef ONLINE_JUDGE
+
+    // For getting input from input.txt file
+    freopen("practice_in.txt", "r", stdin);
+
+    // Printing the Output to output.txt file
+    freopen("practice_out.txt", "w", stdout);
+
+   #endif
+    int n;
+    cin>>n;
+    int a[n];
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+
+    solve(a,n);
+    return 0;
+}
