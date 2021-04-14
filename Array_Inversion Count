@@ -1,0 +1,56 @@
+# include<bits/stdc++.h>
+using namespace std;
+
+int merge(int a[],int l,int mid,int r){
+int temp[1000];
+int i=l,j=mid+1,k=l,inv_cnt=0;
+for(;i<=mid&&j<=r;){
+    if(a[i]>a[j]) {
+        temp[k++]=a[j++];
+        inv_cnt+=(mid+1-i);
+    }
+    else{
+        temp[k++]=a[i++];
+    }
+}
+
+while(i<=mid)temp[k++]=a[i++];
+while(j<=r)temp[k++]=a[j++];
+for(i=l;i<=r;i++)
+a[i]=temp[i];
+return inv_cnt;
+}
+
+int merge_sort(int a[],int l,int r){
+    int inv_cnt=0,mid;
+    if(l<r){
+    
+    mid=(l+r)/2;
+
+    inv_cnt+=merge_sort(a,l,mid);
+    inv_cnt+=merge_sort(a,mid+1,r);
+    inv_cnt+=merge(a,l,mid,r);
+    }
+    return inv_cnt;
+}
+
+
+int main(){
+     #ifndef ONLINE_JUDGE
+
+    // For getting input from input.txt file
+    freopen("practice_in.txt", "r", stdin);
+
+    // Printing the Output to output.txt file
+    freopen("practice_out.txt", "w", stdout);
+
+   #endif
+    int n;
+    cin>>n;
+    int a[n],temp[n];
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+
+    cout<<merge_sort(a,0,n-1);
+    return 0;
+}
