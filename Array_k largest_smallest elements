@@ -1,0 +1,56 @@
+# include<bits/stdc++.h>
+using namespace std;
+void swap(int *a,int *b){
+    int temp;
+    temp=*a;
+    *a=*b;
+    *b=temp;
+}
+int partition(int a[],int l,int h ){
+    int i=l,pivot=a[h],low=l;
+    for(;i<h;i++){
+        if(a[i]<pivot){
+        swap(&a[i],&a[low]);
+        low++;
+    }
+
+    }
+    swap(&a[low],&a[h]);
+    return low;
+
+}
+void quick_sort(int a[],int low,int high,int k){
+    int pivot_index;
+    if(low<high){
+        pivot_index=partition(a,low,high);
+        if(pivot_index==k){cout<<a[pivot_index];return ;
+        }
+        else if(pivot_index<k)quick_sort(a,pivot_index+1,high,k);
+        else
+        quick_sort(a,low,pivot_index-1,k);
+        
+    }
+     
+}
+int main(){
+   #ifndef ONLINE_JUDGE
+
+    // For getting input from input.txt file
+    freopen("practice_in.txt", "r", stdin);
+
+    // Printing the Output to output.txt file
+    freopen("practice_out.txt", "w", stdout);
+
+   #endif
+    int n,k;
+    cin>>n>>k;
+    int a[n];
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    quick_sort(a,0,n-1,k);
+    for(int i=0;i<k;i++)cout<<a[i]<<" ";
+    cout<<"\n";
+    for(int i=n-1;i>=n-k;i--)cout<<a[i]<<" ";
+    
+    return 0;
+}
