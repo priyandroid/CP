@@ -19,7 +19,7 @@ void Union(int parent[],int x,int y){
 }
 int find(int parent[],int i){
     if(parent[i]==-1)
-    return 1;
+    return i;
     find(parent,parent[i]);
 
 }
