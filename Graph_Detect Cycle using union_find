@@ -27,8 +27,8 @@ bool iscycle(Graph* graph){
     int parent[graph->V];
     memset(parent,-1,sizeof parent);
     for(int i=0;i<graph->E;i++){
-        int x=find(parent,x);
-        int y=find(parent,y);
+        int x=find(parent,graph->eddge[i].src);
+        int y=find(parent,graph->edge[i].dest);
         if(x==y)
         return true;
         Union(parent,x,y);
