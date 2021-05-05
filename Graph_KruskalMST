@@ -1,0 +1,105 @@
+# include<bits/stdc++.h>
+using namespace std;
+struct Edge{
+    int src,dest,weight;
+};
+struct Subset{
+    int parent,rank;
+};
+struct Graph{
+    int E,V;
+    Edge* edge;
+};
+Graph* createGraph(int v,int e){
+    Graph *graph=new Graph();
+    graph->E=e;
+    graph->V=v;
+    graph->edge =new Edge[e];
+    return graph;
+}
+int find(Subset subset[],int i){
+    if(subset[i].parent==i)
+    return i;
+    return subset[i].parent=find(subset,subset[i].parent);
+
+}
+void Union(Subset subset[],int x,int y){
+   
+    if(subset[x].rank<subset[y].rank)
+    subset[x].parent=y;
+    else if(subset[x].rank>subset[y].rank)
+    subset[y].parent=x;
+    else{
+        subset[x].parent=y;
+        subset[y].rank++;
+    }
+}
+int comp(Edge a,Edge b){
+   return a.weight<b.weight;
+}
+
+void KruskalMST(Graph* graph){
+    int v=graph->V;
+    sort(graph->edge,graph->edge+graph->E,comp);
+    Edge result[v];
+    Subset* subset=new Subset[v];
+    for(int i=0;i<v;i++){
+        subset[i].parent=i;
+        subset[i].rank=0;
+    }
+    int e=0,i=0;
+   while(e<v-1 && i<graph->E){
+        int x=find(subset,graph->edge[i].src);
+        int y=find(subset,graph->edge[i].dest);
+        if(x!=y){
+            result[e++]=graph->edge[i];
+            Union(subset,x,y);
+        }
+        i++;
+        
+    }
+    int minWeight=0;
+    for(i=0;i<e;i++){
+    cout<<result[i].src<<" "<<result[i].dest<<" "<<result[i].weight<<"\n";
+    minWeight+=result[i].weight;
+    }
+    cout<<"Min Weight="<<minWeight;
+
+}
+
+int main(){
+
+
+     int V = 4; // Number of vertices in graph
+    int E = 5; // Number of edges in graph
+    struct Graph* graph = createGraph(V, E);
+ 
+    // add edge 0-1
+    graph->edge[0].src = 0;
+    graph->edge[0].dest = 1;
+    graph->edge[0].weight = 10;
+ 
+    // add edge 0-2
+    graph->edge[1].src = 0;
+    graph->edge[1].dest = 2;
+    graph->edge[1].weight = 6;
+ 
+    // add edge 0-3
+    graph->edge[2].src = 0;
+    graph->edge[2].dest = 3;
+    graph->edge[2].weight = 5;
+ 
+    // add edge 1-3
+    graph->edge[3].src = 1;
+    graph->edge[3].dest = 3;
+    graph->edge[3].weight = 15;
+ 
+    // add edge 2-3
+    graph->edge[4].src = 2;
+    graph->edge[4].dest = 3;
+    graph->edge[4].weight = 4;
+ 
+    KruskalMST(graph);
+    
+    return 0;
+}

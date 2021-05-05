@@ -1,0 +1,76 @@
+# include<bits/stdc++.h>
+using namespace std;
+struct Edge{
+    int src,dest;
+};
+struct Subset{
+    int parent,rank;
+};
+struct Graph{
+    int E,V;
+    Edge* edge;
+};
+Graph* createGraph(int v,int e){
+    Graph *graph=new Graph();
+    graph->E=e;
+    graph->V=v;
+    graph->edge =new Edge[e];
+    return graph;
+}
+int find(Subset subset[],int i){
+    if(subset[i].parent==i)
+    return i;
+    return subset[i].parent=find(subset,subset[i].parent);
+
+}
+void Union(Subset subset[],int x,int y){
+   
+    if(subset[x].rank<subset[y].rank)
+    subset[x].parent=y;
+    else if(subset[x].rank>subset[y].rank)
+    subset[y].parent=x;
+    else{
+        subset[x].parent=y;
+        subset[y].rank++;
+    }
+}
+
+bool iscycle(Graph* graph){
+    Subset* subset=new Subset[graph->V];
+    for(int i=0;i<graph->V;i++){
+        subset[i].parent=i;
+        subset[i].rank=0;
+    }
+    for(int i=0;i<graph->E;i++){
+        int x=find(subset,graph->edge[i].src);
+        int y=find(subset,graph->edge[i].dest);
+        if(x==y)
+        return true;
+        Union(subset,x,y);
+    }
+    return false;
+}
+
+int main(){
+int V = 3, E = 3;
+    Graph* graph = createGraph(V, E);
+ 
+    // add edge 0-1
+    graph->edge[0].src = 0;
+    graph->edge[0].dest = 1;
+ 
+    // add edge 1-2
+    graph->edge[1].src = 1;
+    graph->edge[1].dest = 2;
+ 
+    // add edge 0-2
+    graph->edge[2].src = 0;
+    graph->edge[2].dest = 2;
+ 
+    if (iscycle(graph))
+        cout << "graph contains cycle";
+    else
+        cout << "graph doesn't contain cycle";
+ 
+    return 0;
+}
