@@ -1,0 +1,66 @@
+ # include <bits/stdc++.h>
+ using namespace std;
+ class Graph{
+     int V;
+     
+     map<int,vector<int>> adj;
+     void TopologicalSortUtil(queue<int> &q,int count[]);
+     public:
+      Graph(int V){
+          this->V=V;
+        
+     }
+    void addEdge(int u,int v);
+    void TopologicalSort();
+    
+ };
+ void Graph::addEdge(int u,int v){
+     adj[u].push_back(v);
+ }
+
+ void Graph::TopologicalSortUtil(queue<int> &q,int count[]){
+     
+     cout<<"Topological Sort : ";
+     while(!q.empty()){
+         int v=q.front();
+         q.pop();
+         cout<<v<<" ";
+     for(auto it=adj[v].begin();it!=adj[v].end();it++){
+         count[*it]--;
+         if(count[*it]==0)
+         q.push(*it);
+     }
+     }
+ }
+ void Graph::TopologicalSort(){
+queue<int> q;
+int count[V];
+memset(count,0,sizeof count);
+ for(int u=0;u<V;u++){
+     for(auto it=adj[u].begin();it!=adj[u].end();it++)
+        count[*it]++;
+ }
+        for(int i=0;i<V;i++){
+            if(count[i]==0)
+           q.push(i);
+        }
+        TopologicalSortUtil(q,count);
+ 
+ 
+ }
+ 
+
+ int main(){
+     Graph graph(6);
+     graph.addEdge(5, 2);
+    graph.addEdge(5, 0);
+    graph.addEdge(4, 0);
+    graph.addEdge(4, 1);
+    graph.addEdge(2, 3);
+    graph.addEdge(3, 1);
+
+    graph.TopologicalSort();
+    
+    return 0;
+ 
+ }
