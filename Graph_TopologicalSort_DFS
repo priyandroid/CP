@@ -1,0 +1,61 @@
+# include <bits/stdc++.h>
+ using namespace std;
+ class Graph{
+     int V;
+     stack<int> st;
+     map<int,bool> visited;
+     map<int,vector<int>> adj;
+     void TopologicalSortUtil(int u,stack<int> &st,map<int,bool> &visited);
+     public:
+      Graph(int V);
+    void addEdge(int u,int v);
+    void TopologicalSort();
+    void print();
+ };
+ Graph::Graph(int V){
+     this->V=V;
+ }
+ void Graph::addEdge(int u,int v){
+     adj[u].push_back(v);
+ }
+
+ void Graph::TopologicalSortUtil(int u,stack<int> &st,map<int,bool> &visited){
+     visited[u]=true;
+     for(auto it=adj[u].begin();it!=adj[u].end();it++){
+                if(!visited[*it])
+                TopologicalSortUtil(*it,st,visited);
+               
+         }
+         st.push(u);
+ }
+ void Graph::TopologicalSort(){
+
+ for(int u=0;u<V;u++){
+     if(!visited[u])
+         TopologicalSortUtil(u,st,visited);
+        
+        
+     }
+     while(!st.empty()){
+     cout<<st.top()<<" ";
+     st.pop();
+ }
+ }
+ 
+ 
+ 
+
+ int main(){
+     Graph graph(6);
+     graph.addEdge(5, 2);
+    graph.addEdge(5, 0);
+    graph.addEdge(4, 0);
+    graph.addEdge(4, 1);
+    graph.addEdge(2, 3);
+    graph.addEdge(3, 1);
+
+    graph.TopologicalSort();
+    
+    return 0;
+ 
+ }
