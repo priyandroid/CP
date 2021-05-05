@@ -1,0 +1,49 @@
+# include<bits/stdc++.h>
+using namespace std;
+bool check(int i,int j,int R,int C){
+    if(i<0 ||i>=R || j<0 ||j>=C)
+    return false;
+    return true;
+}
+int main(){
+
+    #ifndef ONLINE_JUDGE 
+  
+    // For getting input from input.txt file 
+    freopen("practice_in.txt", "r", stdin); 
+  
+    // Printing the Output to output.txt file 
+    freopen("practice_out.txt", "w", stdout); 
+  
+#endif 
+    
+    int r,c;
+    cin>>r>>c;
+    int a[r][c];
+    for(int i=0;i<r;i++)
+    for(int j=0;j<c;j++)
+        cin>>a[i][j];
+
+    for(int i=0;i<r;i++){
+        cout<<a[i][0]<<" ";
+        int j=1,x=i-1;
+        
+        while(check(x,j,r,c)==true){
+            cout<<a[x][j]<<" ";
+            x--;j++;
+        }
+        cout<<"\n";
+    }
+
+    for(int j=1;j<c;j++){
+        cout<<a[r-1][j]<<" ";
+        int i=r-2,y=j+1;
+        
+        while(check(i,y,r,c)==true){
+            cout<<a[i][y]<<" ";
+            i--;y++;
+        }
+        cout<<"\n";
+    }
+    return 0;
+       }

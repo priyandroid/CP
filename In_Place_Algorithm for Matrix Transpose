@@ -1,0 +1,49 @@
+# include<bits/stdc++.h>
+using namespace std;
+
+   
+
+int main(){
+
+    #ifndef ONLINE_JUDGE 
+  
+    // For getting input from input.txt file 
+    freopen("practice_in.txt", "r", stdin); 
+  
+    // Printing the Output to output.txt file 
+    freopen("practice_out.txt", "w", stdout); 
+  
+#endif 
+    
+       int a[10000];
+       int r,c;
+       cin>>r>>c;
+       int N=r*c;
+       for(int i=0;i<N;i++)
+       cin>>a[i];
+        bitset<128> b;
+        b.reset();
+        b[0]=b[N-1]=1;
+        int tmp1,tmp2,nl=0,begin,i=1;
+       while(i<N){
+          begin=i;
+          tmp2=a[begin];
+       do{
+          nl=(i*r)%(N-1);
+           tmp1=a[nl];
+           a[nl]= tmp2;
+           tmp2=tmp1;
+            b[i]=1;
+           i=nl;
+                   }
+        while(i!=begin);
+        for(i=1;i<N &&b[i];i++);
+       }
+      
+  for(i=0;i<N;i++){
+      cout<<a[i]<<"  ";
+      if(i%r==r-1)cout<<"\n";
+      
+  }
+    return 0;
+}
