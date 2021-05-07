@@ -1,0 +1,59 @@
+# include<bits/stdc++.h>
+ using namespace std;
+ struct data{
+     int val,index,cnt;
+ };
+ bool comp(data a,data b){
+     return a.val<b.val;
+
+ }
+ bool comp1(data a,data b){
+     if(a.cnt!=b.cnt)
+     return a.cnt>b.cnt;
+     else return a.index<b.index;
+ }
+ void sort_by_freq(int arr[],int n){
+     data element[n];
+     for(int i=0;i<n;i++){
+         element[i].val=arr[i];
+         element[i].index=i;
+         element[i].cnt=0;
+     }
+     stable_sort(element,element+n,comp);
+     for(int i=0;i<n;i++)
+     cout<<element[i].val<<" "<<element[i].index<<"\n";
+     
+     element[0].cnt=1;
+     for(int i=1;i<n;i++){
+         if(element[i].val==element[i-1].val)
+        { element[i].cnt=element[i-1].cnt+1;
+         element[i-1].cnt=-1;
+         element[i].index=element[i-1].index;
+        }
+        else
+         element[i].cnt=1;
+     }
+
+     for(int i=0;i<n;i++)
+     cout<<element[i].val<<" "<<element[i].index<<" "<<element[i].cnt<<"\n";
+     stable_sort(element,element+n,comp1);
+     
+     for(int i=0;i<n;i++)
+     cout<<element[i].val<<" "<<element[i].index<<" "<<element[i].cnt<<"\n";
+
+int index=0;
+for(int i=0;i<n && element[i].cnt!=-1;i++){
+    for(int j=0;j<element[i].cnt;j++)
+        arr[index++]=element[i].val;
+}
+ }
+ int main(){
+     int arr[] = {2, 5, 2, 6, -1, 9999999, 5, 8, 8, 8 };
+    int n = sizeof(arr)/sizeof(arr[0]);
+     sort_by_freq(arr,n);
+     cout<<"Sorted array elements : "<<"\n";
+     for(int i=0;i<n;i++)
+     cout<<arr[i]<<" ";
+
+     return 0;
+ }
