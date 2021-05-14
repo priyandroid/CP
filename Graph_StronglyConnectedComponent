@@ -1,0 +1,82 @@
+# include<bits/stdc++.h>
+using namespace std;
+class Graph{
+    int V;
+    stack<int> s;
+    
+    map<int,vector<int>> adj;
+    map<int,vector<int>> adj2;
+    void DFSUtil(int u,bool visited[]);
+    void DFSUtil2(int u, bool visited[]);
+    public:
+    void addEdge(int u,int v);
+    Graph(int v);
+    void DFS();
+    void kosaraju();
+    };
+    Graph::Graph(int v){
+        this->V=v;
+    }
+
+void Graph::addEdge(int u,int v){
+    adj[u].push_back(v);
+    adj2[v].push_back(u);
+}
+void Graph::DFSUtil(int u, bool visited[]){
+    visited[u]=true;
+    for(auto it=adj[u].begin();it!=adj[u].end();it++){
+        if(!visited[*it])
+         DFSUtil(*it,visited);
+    }
+    s.push(u);
+}
+
+void Graph::DFSUtil2(int u, bool visited[]){
+    visited[u]=true;
+    cout<<u<<" ";
+    for(auto it=adj2[u].begin();it!=adj2[u].end();it++){
+        if(!visited[*it])
+        DFSUtil2(*it,visited);
+
+    }
+}
+
+void Graph::DFS(){
+    bool visited[V];
+    for(int i=0;i<V;i++)
+    visited[i]=false;
+    for(int i=0;i<V;i++){
+        if(!visited[i]){
+             DFSUtil(i,visited);
+        }
+    }
+}
+
+
+
+void Graph::kosaraju(){
+    DFS();
+    bool visited[V];
+    for(int i=0;i<V;i++)
+    visited[i]=false;
+    while(!s.empty()){
+        if(!visited[s.top()]){
+        DFSUtil2(s.top(),visited);
+        cout<<"\n";
+       
+        }
+         s.pop();
+    }
+}
+
+int main(){
+Graph g(5);
+    g.addEdge(1, 0);
+    g.addEdge(0, 2);
+    g.addEdge(2, 1);
+    g.addEdge(0, 3);
+    g.addEdge(3, 4);
+
+cout<<"Strongly connected components are: \n";
+    g.kosaraju();
+}
