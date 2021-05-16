@@ -1,0 +1,91 @@
+# include<bits/stdc++.h>
+using namespace std;
+class Node{
+    int v,weight;
+    public:
+    Node(int _v,int w){
+        v= _v;
+        weight=w;
+    }
+    int getv(){return v;}
+    int getWeight(){return weight;}
+};
+
+class Graph{
+    int V;
+    list<Node>* adj;
+    void TopologicalSortUtil(int u,stack<int> &s,bool visited[]);
+    public:
+    Graph(int u);
+    void shortestPath(int src);
+    void addEdge(int u,int v,int weight);
+};
+
+Graph::Graph(int u){
+    this->V=u;
+    adj=new list<Node>[V];
+}
+
+void Graph::addEdge(int u,int v,int weight){
+Node node(v,weight);
+adj[u].push_back(node);
+}
+
+void Graph::TopologicalSortUtil(int u,stack<int> &s,bool visited[]){
+visited[u]=true;
+for(auto it=adj[u].begin();it!=adj[u].end();it++)
+    {   Node node=*it;
+        if(!visited[node.getv()])
+        TopologicalSortUtil(node.getv(),s,visited);
+    }
+    s.push(u);
+}
+
+void Graph::shortestPath(int src){
+    bool *visited= new bool[V];
+    for(int i=0;i<V;i++)
+    visited[i]=false;
+    stack<int> s;
+    for(int i=0;i<V;i++){
+        if(!visited[i])
+        TopologicalSortUtil(i,s,visited);
+    }
+
+    int dist[V];
+    for(int i=0;i<V;i++ )
+    dist[i]=INT_MAX;
+    dist[src]= 0; 
+    while(!s.empty()){
+        int x=s.top();
+        s.pop();
+        if(dist[x]!=INT_MAX){
+            for(auto it=adj[x].begin();it!=adj[x].end();it++){
+                Node node= *it;
+                if(dist[x]+node.getWeight()<dist[node.getv()])
+                dist[node.getv()]=dist[x]+node.getWeight();
+            }
+        }
+    }
+
+    for(int i=0;i<V;i++){
+        (dist[i]==INT_MAX) ?cout<<"INF": cout<<dist[i]<<" ";
+    }
+}
+
+int main(){
+    Graph g(6);
+    g.addEdge(0, 1, 5);
+    g.addEdge(0, 2, 3);
+    g.addEdge(1, 3, 6);
+    g.addEdge(1, 2, 2);
+    g.addEdge(2, 4, 4);
+    g.addEdge(2, 5, 2);
+    g.addEdge(2, 3, 7);
+    g.addEdge(3, 4, -1);
+    g.addEdge(4, 5, -2);
+  
+  cout<<"Following are shortest distances from source :\n";
+  g.shortestPath(1);
+
+  return 0;
+}
