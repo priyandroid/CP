@@ -1,0 +1,64 @@
+# include<bits/stdc++.h>
+using namespace std;
+class Graph{
+    int V;
+    list<int> *adj;
+    public:
+    Graph(int v){V=v;
+    adj= new list<int>[V];}
+
+    void addEdge(int u,int v);
+    bool isBipartite();
+};
+
+void Graph::addEdge(int u,int v){
+    adj[u].push_back(v);
+}
+
+bool Graph::isBipartite(){
+    
+    int color[V];
+    memset(color,-1,sizeof color);
+    queue<int> q;
+    q.push(0);
+    color[0]=0;
+        
+    while(!q.empty()){
+        int x=q.front();
+        q.pop();
+        for(auto it=adj[x].begin();it!=adj[x].end();it++){
+           
+            if(color[*it]==-1){
+                q.push(*it);
+                color[*it]=1-color[x];
+            }
+            
+            else if(color[*it]==color[x])
+            return false;
+
+        }
+    }
+
+    return true;
+
+}
+
+int main(){
+    Graph g(4);
+    
+    g.addEdge(0,1);
+    g.addEdge(0,3);
+    g.addEdge(1,0);
+    g.addEdge(1,2);
+    g.addEdge(2,1);
+    g.addEdge(2,3);
+    g.addEdge(3,0);
+    g.addEdge(3,2);
+    
+    if(g.isBipartite())
+    cout<<"It is bi-partite\n";
+    else cout<<"It is not bi-partite\n";
+        return 0;
+    
+
+}
