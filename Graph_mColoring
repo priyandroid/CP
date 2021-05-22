@@ -1,0 +1,78 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Graph{
+    int V;
+    list<int> * adj;
+    bool ColorUtil(int color[],int m,int v);
+    
+    public:
+    Graph(int v){
+        V=v;
+        adj=new list<int>[V];
+    }
+    void addEdge(int u,int v);
+    void Color(int m);
+    bool isSafe(int color[],int v,int c);
+};
+
+void Graph::addEdge(int u,int v){
+    adj[u].push_back(v);
+}
+bool Graph::isSafe(int color[],int v,int c){
+    for(auto it=adj[v].begin();it!=adj[v].end();it++){
+        if(color[*it]==c)
+        return false;
+    }
+    
+return true;
+}
+bool Graph::ColorUtil(int color[],int m,int v){
+    if(v==V)
+    return true;
+    for(int i=1;i<=m;i++){
+        if(isSafe(color,v,i)){
+            color[v]=i;
+            if(ColorUtil(color,m,v+1))
+            return true;
+            color[v]=0;
+        }
+    }
+    
+    return false;
+}
+
+void  Graph::Color(int m){
+    int color[V];
+    memset(color,0,sizeof color);
+    
+    for(int i=0;i<V;i++){
+        if(color[i]==0)
+        if(ColorUtil(color,m,i)==false)
+            
+        cout<<"Its not a m-colorable graph!! ";
+       
+    }
+    cout<<"The color of the vertices are :\n";
+    for(int i=0;i<V;i++)
+    cout<<color[i]<<" ";
+    
+}
+int main()
+{
+    Graph graph(4);
+    graph.addEdge(0,1);
+    graph.addEdge(0,2);
+    graph.addEdge(0,3);
+    graph.addEdge(1,0);
+    graph.addEdge(1,2);
+    graph.addEdge(2,0);
+    graph.addEdge(2,1);
+    graph.addEdge(2,3);
+    graph.addEdge(3,0);
+    graph.addEdge(3,2);
+    graph.Color(3);
+return 0;
+
+    
+}
