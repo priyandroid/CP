@@ -1,0 +1,94 @@
+# include<bits/stdc++.h>
+using namespace std;
+class Graph{
+    int V;
+    list<int>* adj;
+    bool HamilUtil(int start,vector<int>&path,int pos);
+    public:
+    void addEdge(int u,int v);
+    Graph(int v){
+        V=v;
+        adj= new list<int>[V];
+    }
+    bool isSafe(int v,vector<int>&path);
+    bool isHamiltonian();
+};
+
+void Graph::addEdge(int u,int v){
+adj[u].push_back(v);
+adj[v].push_back(u);
+}
+bool Graph::isSafe(int v,vector<int>&path){
+        for(int i=0;i<V;i++)
+        if(path[i]==v)
+        return false;
+    
+    return true;
+}
+
+bool Graph::HamilUtil(int start,vector<int>&path,int pos){
+if(pos==V)
+for(auto it=adj[path[pos-1]].begin();it!=adj[path[pos-1]].end();it++){
+    if(*it==0)
+    return true;
+    else return false;
+}
+
+    for(auto it=adj[start].begin();it!=adj[start].end();it++){
+        if(isSafe(*it,path)){
+            path[pos]= *it;
+            if(HamilUtil(*it,path,pos+1))
+                return true;
+            path[pos]=-1;
+        }
+    }
+
+return false;
+
+}
+
+bool Graph::isHamiltonian(){
+    vector<int> path(V);
+    for(int i=0;i<V;i++)
+    path[i]=-1;
+   path[0]=0;
+    if(!HamilUtil(0,path,1))
+    return false;
+        
+        
+    
+cout<<"The Hamiltonian cycle : \n";
+for(int i=0;i<V;i++)
+cout<<path[i]<<" ";
+    return true;
+}
+
+int main(){
+     #ifndef ONLINE_JUDGE 
+    
+        // For getting input from input.txt file 
+        freopen("practice_in.txt", "r", stdin); 
+    
+        // Printing the Output to output.txt file 
+        freopen("practice_out.txt", "w", stdout); 
+    
+    #endif 
+    Graph graph1(5);
+    Graph graph2(5);
+    for(int i=0;i<6;i++){
+        int u,v;
+        cin>>u>>v;
+        graph1.addEdge(u,v);
+    }
+if(!graph1.isHamiltonian())
+cout<<"Cycle DNE!!\n";
+for(int i=0;i<7;i++){
+        int u,v;
+        cin>>u>>v;
+        graph2.addEdge(u,v);
+    }
+if(!graph2.isHamiltonian())
+cout<<"Cycle DNE!!\n";
+
+return 0;
+}
