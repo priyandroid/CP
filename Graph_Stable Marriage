@@ -1,0 +1,66 @@
+# include<bits/stdc++.h>
+using namespace std;
+bool iscurrent_match_stable(int m,int m1,int w,vector<vector<int>> &pref){
+    int n=pref[0].size();
+    for(int i=0;i<n;i++){
+        if(pref[w][i]==m)
+        return false;
+        if(pref[w][i]==m1)
+        return true;
+    }
+    return true;
+}
+
+
+void StableMatch(vector<vector<int>> &pref){
+int cnt=0,n=pref[0].size();
+vector<int> partner(n,-1);
+bool men_free[n];
+memset(men_free,true,sizeof men_free);
+while(cnt<n){
+    int i;
+    for( i=0;i<n;i++)
+    if(men_free[i]==true)
+    break;
+for(int j=0;j<n && men_free[i]==true;j++){
+    int w=pref[i][j];
+    if(partner[w-n]==-1)
+    {partner[w-n]=i;
+    cnt++;
+    men_free[i]=false;
+    }
+    else {
+        int m1=partner[w-n];
+        if(iscurrent_match_stable(i,m1,w,pref)==false){
+            men_free[m1]=true;
+            men_free[i]=false;
+            partner[w-n]=i;
+        }
+    }
+}
+}
+cout<<"Stable Marriage Matching : \n";
+
+for(int i=0;i<n;i++)
+cout<<partner[i]<<" : "<< i+n<<"\n";
+}
+
+int main(){
+      #ifndef ONLINE_JUDGE 
+    
+        // For getting input from input.txt file 
+        freopen("practice_in.txt", "r", stdin); 
+    
+        // Printing the Output to output.txt file 
+        freopen("practice_out.txt", "w", stdout); 
+    
+    #endif 
+int n;
+cin>>n;
+vector<vector<int>> pref(2*n,vector<int>(n));
+for(int i=0;i<2*n;i++)
+for(int j=0;j<n;j++)
+cin>>pref[i][j];
+StableMatch(pref);
+return 0;
+}
