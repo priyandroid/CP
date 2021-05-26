@@ -1,0 +1,74 @@
+# include<bits/stdc++.h>
+using namespace std;
+struct Node{
+    int val,w;
+ 
+};
+class Graph{
+    int V;
+    list<Node>* adj;
+    public:
+    Graph(int v){
+        V=v;
+        adj= new list<Node>[V];
+    }
+
+    void addEdge(int u,int v,int w);
+    void Dijkstra(int src);
+};
+void Graph::addEdge(int u,int v,int w){
+    Node node={v,w};
+    adj[u].push_back(node);
+}
+
+void Graph:: Dijkstra(int src){
+    set<pair<int,int>> spt;
+    spt.insert(make_pair(0,src));
+    vector<int> dist(V,INT_MAX);
+    dist[src]=0;
+    while(!spt.empty()){
+        pair<int,int> p=*spt.begin();
+        int u=p.second;
+        spt.erase(spt.begin());
+        for(auto it=adj[u].begin();it!=adj[u].end();it++){
+            int v=(*it).val;
+            if(dist[v]>dist[u]+ (*it).w){
+                pair<int,int> p1=make_pair(dist[v],v);
+                if(dist[v]!=INT_MAX)
+                spt.erase(spt.find(p1));
+                dist[v]=dist[u]+(*it).w;
+                pair<int,int> p2 = make_pair(dist[v],v);
+                spt.insert(p2);
+            }
+        }
+    }
+cout<<"Shortest path from source to other vertices : \n";
+    for(int i=0;i<V;i++)
+    cout<<i<<" "<<dist[i]<< "\n";
+}
+
+int main(){
+    int V = 9;
+    Graph g(V);
+  
+    //  making above shown graph
+    g.addEdge(0, 1, 4);
+    g.addEdge(0, 7, 8);
+    g.addEdge(1, 2, 8);
+    g.addEdge(1, 7, 11);
+    g.addEdge(2, 3, 7);
+    g.addEdge(2, 8, 2);
+    g.addEdge(2, 5, 4);
+    g.addEdge(3, 4, 9);
+    g.addEdge(3, 5, 14);
+    g.addEdge(4, 5, 10);
+    g.addEdge(5, 6, 2);
+    g.addEdge(6, 7, 1);
+    g.addEdge(6, 8, 6);
+    g.addEdge(7, 8, 7);
+  
+  
+    g.Dijkstra(0);
+  
+    return 0;
+}
