@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+  int val;
+  Node* next;
+  
+};
+void printNthFromEnd(int n,Node*head){
+  Node*temp=head;
+  int len=0;
+  while(temp!=NULL){
+    len++;
+    temp=temp->next;
+  }
+  if(n<=len){
+    temp=head;
+    for(int i=0;i<len-n;i++){
+      temp=temp->next;
+    }
+    cout<<temp->val;
+  }
+  else cout<<"DNE";
+
+}
+Node* push(Node* head,int val){
+  
+  Node*temp=new Node();
+  temp->val=val;
+  temp->next=NULL;
+  if(head==NULL){
+    head=temp;
+   
+  }
+  else{
+  Node*temp1 =head;
+  while(temp1->next!=NULL){
+    temp1=temp1->next;
+  }
+temp1->next= temp;
+  }
+  return head;
+}
+int main(){
+Node*head=NULL;
+
+head=push(head,2);
+head=push(head,3);
+head=push(head,4);
+head=push(head,5);
+
+printNthFromEnd(1,head);
+}
