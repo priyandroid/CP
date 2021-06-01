@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+  int val;
+  Node* next;
+  Node(int val){
+    this->val=val;
+    next=NULL;
+  }
+  
+};
+ Node* prev=NULL,*nxt=NULL;
+
+struct LinkedList{
+  Node*head;
+  LinkedList(){
+    head=NULL;
+  }
+   void insert(int val){
+     Node* temp= new Node(val);
+     if(head==NULL)
+      head=temp;
+      else{
+        Node* tp=head;
+        while(tp->next!=NULL){
+          tp=tp->next;
+        }
+        tp->next= temp;
+      }
+    
+   }
+   
+   Node* reverse(Node*head,int k){
+    Node*curr=head,*prev=NULL,*nxt;
+    if(head==NULL)
+    return head;
+
+     int cnt=0;
+     while(curr!=NULL && cnt<k){
+       nxt=curr->next;
+       curr->next=prev;
+       prev=curr;
+       curr=nxt;
+       cnt++;
+     }
+
+  head->next=reverse(nxt,k);
+  return prev;
+
+   }
+Node* rec_reverse(Node *head){
+  if(head==NULL || head->next==NULL)
+  return head;
+  Node*rest= rec_reverse(head->next);
+  head->next->next=head;
+  head=rest;
+  return head;
+
+}
+   void print(){
+
+     Node* temp=head;
+     while(temp!=NULL){
+       cout<<temp->val<<" ";
+       temp=temp->next;
+     }
+   }
+};
+
+int main(){
+  int k=5;
+LinkedList ll;
+ll.insert(1);
+ll.insert(2);
+ll.insert(3);
+ll.insert(4);
+ll.insert(5);
+ll.insert(6);
+ll.insert(7);
+ll.insert(8);
+ll.insert(9);
+cout<<"Original list : \n";
+ll.print();
+ll.head=ll.reverse(ll.head,k);
+
+cout<<"\n Reversed List : \n";
+ll.print();
+return 0;
+}
