@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+  int val;
+  Node* next;
+  Node(int val){
+    this->val=val;
+    next=NULL;
+  } 
+};
+ 
+
+struct LinkedList{
+  Node*head;
+  LinkedList(){
+    head=NULL;
+  }
+   void insert(int val){
+     Node* curr= new Node(val);
+     if(head==NULL)
+      head=curr;
+      else{
+        Node* tp=head;
+        while(tp->next!=NULL){
+          tp=tp->next;
+        }
+        tp->next= curr;
+      }
+    
+   }
+   
+  
+Node* deleteAlt(Node* head){
+  Node*curr=head->next,*prev=head;
+
+  while(curr!=NULL && prev!=NULL){
+    
+    prev->next=curr->next;
+    free(curr);
+    prev=prev->next;
+    if(prev!=NULL)
+    curr=prev->next;
+  }
+  return head;
+}
+   void print(){
+
+     Node* curr=head;
+     while(curr!=NULL){
+       cout<<curr->val<<" ";
+       curr=curr->next;
+     }
+   }
+};
+
+int main(){
+  
+LinkedList ll;
+ll.insert(1);
+ll.insert(2);
+ll.insert(3);
+ll.insert(4);
+ll.insert(5);
+ll.insert(6);
+ll.insert(7);
+ll.insert(7);
+ll.insert(8);
+ll.insert(1);
+cout<<"Original list : \n";
+ll.print();
+ll.head=ll.deleteAlt(ll.head);
+cout<<"\n  List After Deletion : \n";
+ll.print();
+return 0;
+}
