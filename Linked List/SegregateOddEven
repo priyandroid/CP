@@ -66,7 +66,7 @@ Node* rec_reverse(Node *head){
 
 Node* SegregateOddEven(Node* head){
  
- Node*end=head,*curr=head;
+ Node*end=head;
   int cnt=0,len=0;
 
   while(end->next!=NULL){
@@ -76,20 +76,20 @@ Node* SegregateOddEven(Node* head){
  }
   if(cnt==len || cnt==0)return head;
   
-  Node* curr_end=end,*prev;
+  Node* curr_end=end,*prev,*curr=head;
   while(curr!= end ){
   
     if(curr->val & 1 ){
-       Node* p= curr->next;
+       
         if(curr==head){
-         head=p;
+         head=curr->next;
        }
-       else  prev->next=p;
+       else  prev->next= curr->next;
      
      curr_end->next = curr;
-     curr_end= curr_end->next;
+     curr= curr->next;
+     curr_end=curr_end->next;
      curr_end->next=NULL;
-     curr=p;
      
   }
   else{
