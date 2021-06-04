@@ -1,0 +1,83 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+  int val;
+  Node* next;
+  Node(int val){
+    this->val=val;
+    next=NULL;
+  } 
+};
+ 
+
+struct LinkedList{
+  Node*head;
+  LinkedList(){
+    head=NULL;
+  }
+   void insert(int val){
+     Node* curr= new Node(val);
+     if(head==NULL)
+      head=curr;
+      else{
+        Node* tp=head;
+        while(tp->next!=NULL){
+          tp=tp->next;
+        }
+        tp->next= curr;
+      }
+    
+   }
+ 
+
+};
+
+
+ void print(Node* p){
+    if(p==NULL)
+    {cout<<"No element in list\n";
+    return;
+    }
+     Node* curr=p;
+     while(curr!=NULL){
+       cout<<curr->val<<" ";
+       curr=curr->next;
+     }
+     cout<<"\n";
+   }
+
+
+
+
+void deleteList(Node** head){
+  if(*head==NULL)
+  cout<<"Error :List is empty !!\n";
+Node* curr=*head;
+  while(curr!=NULL){
+    Node* p=curr;
+    
+    curr=curr->next;
+    free(p);
+  }
+  *head=NULL;
+}
+   
+int main(){
+LinkedList ll;
+ll.insert(1);
+ll.insert(2);
+ll.insert(3);
+ll.insert(4);
+ll.insert(5);
+ll.insert(6);
+ll.insert(7);
+ll.insert(7);
+ll.insert(8);
+ll.insert(1);
+cout<<"Original list : \n";
+print(ll.head);
+deleteList(&ll.head);
+print(ll.head);
+deleteList(&ll.head);
+return 0;
+}
