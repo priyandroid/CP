@@ -1,0 +1,122 @@
+# include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int val;
+    Node* next;
+    Node(int val){
+        this->val=val;
+        next=NULL;
+    }
+};
+
+
+void   insert(Node** head,int val){
+    Node* cur= new Node(val);
+    if(*head==NULL){
+        *head=cur;
+        
+    }
+    else{
+        Node* temp=*head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next=cur;
+    }
+   
+}
+
+void split(Node*head,Node** a,Node** b){
+    
+    Node* slow=head,*fast=head->next;
+    while(fast!=NULL ){
+        fast=fast->next;
+        if(fast!=NULL){
+            slow=slow->next;
+            fast=fast->next;
+        }
+    }
+    
+    *a=head;
+    *b=slow->next;
+    slow->next=NULL;
+    
+}
+    
+ Node*  merge(Node* a,Node* b){
+    Node* c=NULL;
+    while(a!=NULL && b!=NULL){
+        if(a->val<=b->val){
+            insert(&c,a->val);
+           
+            a=a->next;
+        }
+        else{
+           insert(&c,b->val);
+            b=b->next;
+        }
+         
+    }
+    
+    while(a!=NULL){
+        insert(&c,a->val);
+        a=a->next;
+        
+    }
+    
+    while(b!=NULL){
+         insert(&c,b->val);
+        b=b->next;
+        
+    }
+     return c;
+ } 
+ 
+ 
+void mergeSort(Node** head){
+    Node* temp= *head;
+    Node*a=NULL,*b=NULL;
+    if(*head==NULL ||(*head)->next==NULL)
+    return;
+    
+    split(temp,&a,&b);
+    
+    mergeSort(&a);
+    mergeSort(&b);
+    
+    *head=merge(a,b);
+    
+}
+
+
+    void print(Node* head){
+        while(head!=NULL){
+            cout<<head->val<<" ";
+            head=head->next;
+        }
+        cout<<"\n";
+    }
+    int main(){
+        Node* a=NULL;
+        insert(&a,1);
+        insert(&a,5);
+        insert(&a,3);
+        insert(&a,2);
+        insert(&a,4);
+        cout<<"List before sorting :";
+        print(a);
+        cout<<"List after sorting :";
+        mergeSort(&a);
+        print(a);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
