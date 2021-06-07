@@ -29,40 +29,7 @@ struct LinkedList{
     
    }
    
-   Node* reverseAltK(Node*head,int k){
-    Node*curr=head,*prev=NULL,*nxt;
-    if(head==NULL)
-    return head;
-
-     int cnt=0;
-     while(curr!=NULL && cnt<k){
-       nxt=curr->next;
-       curr->next=prev;
-       prev=curr;
-       curr=nxt;
-       cnt++;
-     }
-     head->next=nxt;
-     while(cnt<2*k-1 && nxt!=NULL){
-       cnt++;
-       nxt=nxt->next;
-     }
-     if(nxt!=NULL)
-      head=nxt;
-  head->next=reverseAltK(head->next,k);
-  return prev;
-
-   }
-
-Node* rec_reverse(Node *head){
-  if(head==NULL || head->next==NULL)
-  return head;
-  Node*rest= rec_reverse(head->next);
-  head->next->next=head;
-  head=rest;
-  return head;
-
-}
+   
 
 Node* SegregateOddEven(Node* head){
  
