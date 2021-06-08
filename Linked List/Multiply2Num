@@ -1,0 +1,88 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+    int val;
+    Node* next;
+    Node(int val){
+        this->val=val;
+        next=NULL;
+    }
+};
+
+
+void   insert(Node** head,int val){
+    Node* cur= new Node(val);
+    if(*head==NULL){
+        *head=cur;
+        
+    }
+    else{
+        Node* temp=*head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next=cur;
+    }
+   
+}
+
+
+    void print(Node* head){
+        while(head!=NULL){
+            cout<<head->val;
+            head=head->next;
+        }
+        cout<<"\n";
+    }
+    
+    
+    void reverse(Node** head){
+     Node* prev=NULL,*curr=*head,*nxt=NULL;
+     
+     while(curr!=NULL){
+       nxt=curr->next;
+       curr->next=prev;
+       prev=curr;
+       curr=nxt;
+     }
+  *head=prev;
+   }
+
+   void multiply(Node* a,Node* b){
+       int num1=0,num2=0;
+      
+       
+       while(a!=NULL){
+           num1=(num1*10+ a->val);
+           a=a->next;
+       }
+       while(b!=NULL){
+           num2=(num2*10+ b->val);
+           b=b->next;
+       }
+       cout<<"product of "<<num1<<"and "<<num2<<": ";
+       num1*=num2;
+       cout<<num1;
+   }
+    
+    
+    int main(){
+        
+        Node* a=NULL,*b=NULL;
+        insert(&a,9);
+        insert(&a,8);
+        insert(&a,2);
+        insert(&b,2);
+        insert(&b,4);
+        insert(&b,1);
+
+        
+       
+        multiply(a,b);
+        return 0;
+    }
+    
+    
+    
+    
+    
