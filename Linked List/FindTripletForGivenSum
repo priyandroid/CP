@@ -1,0 +1,163 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+    int val;
+    Node* next;
+    Node(int val){
+        this->val=val;
+        next=NULL;
+    }
+};
+
+
+void   insert(Node** head,int val){
+    Node* cur= new Node(val);
+    if(*head==NULL){
+        *head=cur;
+        
+    }
+    else{
+        Node* temp=*head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next=cur;
+    }
+   
+}
+
+void split(Node*head,Node** a,Node** b){
+    
+    Node* slow=head,*fast=head->next;
+    while(fast!=NULL ){
+        fast=fast->next;
+        if(fast!=NULL){
+            slow=slow->next;
+            fast=fast->next;
+        }
+    }
+    
+    *a=head;
+    *b=slow->next;
+    slow->next=NULL;
+    
+}
+    
+ Node*  merge(Node* a,Node* b){
+    Node* c=NULL;
+    while(a!=NULL && b!=NULL){
+        if(a->val<=b->val){
+            insert(&c,a->val);
+           
+            a=a->next;
+        }
+        else{
+           insert(&c,b->val);
+            b=b->next;
+        }
+         
+    }
+    
+    while(a!=NULL){
+        insert(&c,a->val);
+        a=a->next;
+        
+    }
+    
+    while(b!=NULL){
+         insert(&c,b->val);
+        b=b->next;
+        
+    }
+     return c;
+ } 
+ 
+ 
+void mergeSort(Node** head){
+    Node* temp= *head;
+    Node*a=NULL,*b=NULL;
+    if(*head==NULL ||(*head)->next==NULL)
+    return;
+    
+    split(temp,&a,&b);
+    
+    mergeSort(&a);
+    mergeSort(&b);
+    
+    *head=merge(a,b);
+    
+}
+
+
+    void print(Node* head){
+        while(head!=NULL){
+            cout<<head->val<<" ";
+            head=head->next;
+        }
+        cout<<"\n";
+    }
+    
+    
+    void reverse(Node** head){
+     Node* prev=NULL,*curr=*head,*nxt=NULL;
+     
+     while(curr!=NULL){
+       nxt=curr->next;
+       curr->next=prev;
+       prev=curr;
+       curr=nxt;
+     }
+  *head=prev;
+   }
+
+   
+    void findTriplet(Node* a,Node* b,Node* c,int sum){
+        while(a!=NULL){
+            Node* headB= b,* headC =c;
+            while(headB!=NULL && headC!=NULL){
+                if(a->val+headB->val+headC->val == sum){
+                    cout<<"Triplet is : \n";
+                    cout<<a->val<<" "<<headB->val<<" "<<headC->val;
+                    return;
+                }
+                else if(a->val+headB->val+headC->val<sum)
+                headB= headB->next;
+                else headC= headC->next;
+                
+            }
+            a=a->next;
+        }
+        cout<<"Triplet Not Found!!";
+    }
+    
+    int main(){
+        Node* a=NULL,*b=NULL,*c=NULL;
+        insert(&a,1);
+        insert(&a,8);
+        insert(&a,2);
+        insert(&a,4);
+        insert(&b,20);
+        insert(&b,4);
+        insert(&b,15);
+        insert(&b,10);
+        insert(&c,10);
+        insert(&c,9);
+        insert(&c,4);
+        insert(&c,2);
+        
+        cout<<"Three Lists are :";
+        print(a);
+        print(b);
+        print(c);
+       
+        mergeSort(&b);
+        mergeSort(&c);
+        reverse(&c);
+        
+        int sum=25;
+        findTriplet(a,b,c,sum);
+        return 0;
+    }
+    
+    
+  
