@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+    int val;
+    Node* next;
+    Node(int val){
+        this->val=val;
+        next=NULL;
+    }
+};
+
+
+void   insert(Node** head,int val){
+    Node* cur= new Node(val);
+    if(*head==NULL){
+        *head=cur;
+        
+    }
+    else{
+        Node* temp=*head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next=cur;
+    }
+   
+}
+
+
+    void print(Node* head){
+        while(head!=NULL){
+            cout<<head->val;
+            head=head->next;
+        }
+        cout<<"\n";
+    }
+    
+    
+    void reverse(Node** head){
+     Node* prev=NULL,*curr=*head,*nxt=NULL;
+     
+     while(curr!=NULL){
+       nxt=curr->next;
+       curr->next=prev;
+       prev=curr;
+       curr=nxt;
+     }
+  *head=prev;
+   }
+
+   void sum(Node* a,Node* b){
+       Node* c=NULL;
+       int carry=0;
+       reverse(&a);
+       reverse(&b);
+       while(a!=NULL && b!=NULL){
+          int x= (carry+a->val+b->val);
+          carry=x/10;
+          insert(&c,x%10);
+          a=a->next;
+          b=b->next;
+       }
+       if(carry!=0)
+       insert(&c,carry);
+       reverse(&c);
+       cout<<"Sum is :\n";
+       print(c);
+   }
+    
+    
+    int main(){
+        
+        Node* a=NULL,*b=NULL;
+        insert(&a,9);
+        insert(&a,8);
+        insert(&a,2);
+        insert(&a,4);
+        insert(&b,2);
+        insert(&b,4);
+        insert(&b,1);
+        insert(&b,7);
+        
+        cout<<"Numbers are :\n";
+        print(a);
+        print(b);
+
+       
+        sum(a,b);
+        return 0;
+    }
+    
+    
+   
