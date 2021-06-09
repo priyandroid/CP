@@ -1,0 +1,90 @@
+# include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int val;
+    Node* right, *down;
+    Node(int val){
+        this->val=val;
+        right=NULL;
+        down=NULL;
+    }
+};
+
+void insert(Node** head,int val){
+    Node* curr=new Node(val);
+    if(*head==NULL){
+        *head=curr;
+    }
+    else {
+        Node*p= *head;
+        while(p->down!=NULL)
+        p=p->down;
+        
+        p->down=curr;
+    }
+    
+}
+
+void print(Node* head){
+    if(head==NULL)
+    return;
+    while(head!=NULL){
+        cout<<head->val<<" ";
+        head=head->down;
+    }
+    cout<<"\n";
+}
+
+Node* merge(Node*a,Node*b){
+    Node* c;
+    if(a==NULL)
+    return b;
+    if(b==NULL)
+    return a;
+    
+        if(a->val<=b->val){
+        c=a;
+        c->down=merge(a->down,b);
+        }
+        else{
+            c=b;
+            c->down= merge(a,b->down);
+        }
+        
+        c->right=NULL;
+    return c;
+}
+Node* flatten(Node* head){
+    if(head==NULL ||head->right==NULL)
+    return head;
+    
+    head->right=flatten(head->right);
+    head=merge(head,head->right);
+    return head;
+}
+int main(){
+    Node* h1=NULL,*h2=NULL,*h3=NULL,*h4=NULL;
+    
+    
+    insert(&h1,5);
+    insert(&h1,7);
+    insert(&h1,8);
+    insert(&h1,30);
+    insert(&h2,10);
+    insert(&h2,20);
+    insert(&h3,19);
+    insert(&h3,22);
+    insert(&h3,50);
+    insert(&h4,28);
+    insert(&h4,35);
+    insert(&h4,40);
+    insert(&h4,45);
+    h1->right=h2;
+    h2->right=h3;
+    h3->right=h4;
+   Node* p= flatten(h1);
+   cout<<"Flattened List : \n";
+   print(p);
+return 0;
+}
