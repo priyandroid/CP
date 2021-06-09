@@ -1,0 +1,100 @@
+
+
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+    int val;
+    Node* next;
+    Node(int val){
+        this->val=val;
+        next=NULL;
+    }
+};
+
+
+void   insert(Node** head,int val){
+    Node* cur= new Node(val);
+    if(*head==NULL){
+        *head=cur;
+        
+    }
+    else{
+        Node* temp=*head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next=cur;
+    }
+   
+}
+
+
+    void print(Node* head){
+        while(head!=NULL){
+            cout<<head->val;
+            head=head->next;
+        }
+        cout<<"\n";
+    }
+    
+    int length(Node* head){
+        int k=0;
+        while(head!=NULL){
+            head=head->next;
+            k++;
+        }
+        return k;
+    }
+    void swapK(Node** head,int k){
+        int i=0,n=length(*head);
+        Node* curr1=*head, *prev1=NULL,*prev2=NULL,* curr2 =*head;
+        if(k>n){cout<<"Swapping not possible\n";
+        return;
+        }
+        if(2*k-1==n){
+            return;
+        }
+        while(i<k-1){
+            prev1=curr1;
+            curr1=curr1->next;
+            i++;
+        }
+        
+        i=0;
+        while(i<n-k){
+            i++;
+            prev2=curr2;
+            curr2=curr2->next;
+        }
+        
+        if(prev1)
+        prev1->next= curr2;
+        
+        if(prev2)
+        prev2->next= curr1;
+        
+        Node*temp=curr1->next;
+        curr1->next=curr2->next;
+        curr2->next=temp;
+        
+        if(k==1)
+        *head=curr2;
+        if(k==n)
+       *head=curr1;
+    }
+int main()
+{
+    Node* head=NULL;
+    insert(&head,1);
+    insert(&head,2);
+    insert(&head,3);
+    insert(&head,4);
+    insert(&head,5);
+    insert(&head,6);
+    insert(&head,7);
+    //insert(&head,8);
+    print(head);
+    swapK(&head,7);
+    print(head);
+    return 0;
+}
