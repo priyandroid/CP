@@ -1,0 +1,55 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int val;
+    Node* right,*left,*next;
+    Node(int val){
+        this->val=val;
+        left=right=next=NULL;
+    }
+};
+
+
+
+
+
+void inorder(Node* root,stack<Node*> &s){
+    if(root==NULL)
+    return ;
+    
+    inorder(root->left,s);
+    
+   s.push(root);
+   inorder(root->right,s);
+     
+}
+
+int main()
+{
+    stack<Node*> s;
+    Node *root = new Node(10);
+    root->left = new Node(8);
+    root->right = new Node(12);
+    root->left->left = new Node(3);
+    inorder(root,s);
+    Node* prev=NULL;
+    while(!s.empty()){
+        Node*q=s.top();
+        s.pop();
+        q->next=prev;
+        prev=q;
+        
+    }
+    Node *ptr = root->left->left;
+    while(ptr)
+    {
+        // -1 is printed if there is no successor
+        cout << "Next of " << ptr->val << " is "
+             << (ptr->next? ptr->next->val: -1)
+             << endl;
+        ptr = ptr->next;
+    }
+    return 0;
+}
