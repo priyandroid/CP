@@ -1,0 +1,70 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int val;
+    Node* right,*left;
+    Node(int val){
+        this->val=val;
+        left=right=NULL;
+    }
+};
+
+
+
+int diameterTree(Node* root,int *height){
+    if(root==NULL ){
+        *height=0;
+        return 0;
+    }
+    
+    int lh=0,rh=0;
+    int left=diameterTree(root->left,&lh);
+    int right=diameterTree(root->right,&rh);
+    *height= 1+max(lh,rh);
+    int ans=max(left,right);
+    return ans=max(ans,1+lh+rh);
+       
+    
+}
+
+    int maxWidth(Node* root){
+        queue<Node*> q;
+        q.push(root);
+        int c=1,ans=c;
+       
+        while(!q.empty()){
+             int count=0;
+             for(int i=0;i<c;i++){
+             Node*p=q.front();
+             q.pop();
+             if(p->left!=NULL){
+             q.push(p->left);
+             count++;
+             }
+             if(p->right!=NULL){
+             q.push(p->right);
+             count++;
+             }
+             }
+             ans=max(ans,count);
+             c=count;
+        }
+        return ans;
+    }
+
+int main()
+{
+    
+    Node *root = new Node(1); 
+    root->left = new Node(2); 
+    root->right = new Node(3); 
+    root->left->left = new Node(4); 
+    root->left->right = new Node(5);
+    root->right->right = new Node(8);
+    root->right->right->left = new Node(6);
+    root->right->right->right = new Node(7);
+    cout<<maxWidth(root);
+    return 0;
+}
