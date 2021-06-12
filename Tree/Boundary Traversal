@@ -1,0 +1,75 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <bits/stdc++.h>
+
+using namespace std;
+struct Node{
+    int val;
+    Node* left, *right;
+    Node(int val){
+        this->val=val;
+        left=right=NULL;
+    }
+};
+
+void printLeft(Node* root){
+    if(root==NULL)
+    return ;
+    if(root->left){
+    cout<<root->val<<" ";
+    printLeft(root->left);
+    }
+    else if(root->right){
+        cout<<root->val<<" ";
+        printLeft(root->right);
+    }
+    
+   
+}
+
+void printLeaveNodes(Node* root){
+    if(root==NULL)
+    return;
+   
+    printLeaveNodes(root->left);
+     if(root->left==NULL && root->right==NULL)   // it should be here so that any leaf node  in upper levels doent get printed before left boundary nodes
+    cout<<root->val<<" ";
+    printLeaveNodes(root->right);
+}
+
+void printRight(Node* root){
+    if(root==NULL)
+    return;
+    printRight(root->right);
+    cout<<root->val<<" ";
+    
+  
+}
+
+void boundaryTraversal(Node* root){
+    printLeft(root);
+    printLeaveNodes(root);
+    if(root->right)
+    printRight(root->right);
+}
+int main()
+{
+    Node* root = new Node(20);
+    root->left = new Node(8);
+    root->left->left = new Node(4);
+    root->left->left->right=new Node(5);
+    root->left->right = new Node(12);
+    root->left->right->left = new Node(10);
+    root->left->right->right = new Node(14);
+    root->right = new Node(22);
+    root->right->right = new Node(25);
+    root->right->right->left=new Node(27);
+    boundaryTraversal(root);
+    return 0;
+}
