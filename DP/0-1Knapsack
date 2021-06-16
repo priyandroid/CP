@@ -1,0 +1,17 @@
+int Solution::solve(vector<int> &A, vector<int> &B, int C) {
+    int n = A.size(); 
+    vector<vector<int>> dp(C+1,vector<int>(n+1));
+    dp[0][0]=1;
+    for(int i= 1;i<=C;i++)
+    dp[i][0]=0;
+    for(int i=1;i<=n;i++)
+    dp[0][i]= 0;
+    for(int i=1;i<=C;i++)
+    for(int j=1;j<=n;j++){
+        if(B[j-1]<=i){
+            dp[i][j] = max(dp[i-B[j-1]][j-1]+ A[j-1], dp[i][j-1]);
+        }
+        else dp[i][j] = dp[i][j-1];
+    }
+    return dp[C][n];
+}
