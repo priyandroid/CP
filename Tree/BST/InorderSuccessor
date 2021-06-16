@@ -1,0 +1,79 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <bits/stdc++.h>
+using namespace std;
+# define ll long long
+
+struct Node{
+    int val;
+    Node*left, *right;
+    Node(int val){
+        this->val= val;
+        left=right=NULL;
+    }
+};
+
+Node* insert(Node* root,int val){
+  
+  if(root ==NULL)
+  return new Node(val);
+  
+  if(root->val>val)
+   root->left= insert(root->left,val);
+   
+   else root->right= insert(root->right,val);
+   return root;
+        
+}
+
+Node* min(Node* root){
+    
+    while(root->left!=NULL){
+        root=root->left;
+    }
+    return root;
+}
+Node* findInorderSuccessorBST(Node*root, Node* p){
+    if(p->right )
+    return min(p->right);
+    
+    Node* succ=NULL;
+    while(root!=NULL){
+        if(root->val<p->val){
+            root=root->right;
+        }
+        else if(root->val>p->val) {
+            succ=root;
+            root=root->left;
+        }
+        else break;
+    }
+    return succ;
+}
+
+int main()
+{
+     Node *root = NULL, *temp, *succ;
+ 
+    // creating the tree given in the above diagram
+    root = insert(root, 20);
+    root = insert(root, 8);
+    root = insert(root, 22);
+    root = insert(root, 4);
+    root = insert(root, 12);
+    root = insert(root, 10);
+    root = insert(root, 14);
+    temp = root->left->right;
+     
+    // Function Call
+    succ = findInorderSuccessorBST(root, temp);
+  cout<<succ->val;
+
+    return 0;
+}
