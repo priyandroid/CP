@@ -1,0 +1,51 @@
+
+#include <bits/stdc++.h>
+
+using namespace std;
+struct Node{
+    int val;
+    Node* left,*right;
+    Node(int val){
+        this->val =val;
+        left=right=NULL;
+    }
+};
+
+int maxLeft(Node* n1){
+    if(n1->right==NULL)
+    return n1->val;
+    
+    return maxLeft(n1->right);
+    
+}
+
+int minRight(Node* n1){
+    if(n1->left==NULL)
+    return n1->val;
+    
+    return maxLeft(n1->left);
+    
+}
+bool checkBST(Node* root,int min,int max){
+    if(root==NULL ||(root->left==NULL && root->right==NULL))
+    return true;
+    if(root->val<=min || root->val>=max)
+    return false;
+    
+    return (checkBST(root->left,min,root->val-1) && checkBST(root->right,root->val+1,max));
+   
+}
+int main()
+{
+    Node* n1= new Node(3);
+    n1->left= new Node(2);
+    n1->right= new Node(5);
+    n1->left->right = new Node(4);
+    n1->left->left =new Node(1);
+    
+    if(checkBST(n1,INT_MIN,INT_MAX))
+    cout<<"Found BST";
+    else cout<<"Not a BST";
+    
+    return 0;
+}
