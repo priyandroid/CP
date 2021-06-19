@@ -1,0 +1,43 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <bits/stdc++.h>
+using namespace std;
+# define R 6
+# define C 5
+
+int MCM(int a[],int n){
+    
+    int dp[n][n];
+    
+    for(int i=1;i<n;i++)
+    dp[i][i]=0;
+    
+    
+    for(int d=2;d<n;d++)
+    for(int i=1;i<=n-d;i++){
+        int j=d+i-1;
+    dp[i][j]=INT_MAX;
+    for(int k=i;k<j;k++){
+    int x=a[i-1]*a[k]*a[j]+dp[i][k]+dp[k+1][j];
+    dp[i][j]=min(dp[i][j],x);
+    }
+    }
+    
+    return dp[1][n-1];
+}
+
+int main()
+{
+   
+   int arr[] = { 1, 2, 3, 4 };
+    int size = sizeof(arr) / sizeof(arr[0]);
+    cout<<MCM(arr,size);
+
+    return 0;
+}
