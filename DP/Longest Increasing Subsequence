@@ -1,0 +1,16 @@
+int longestSubsequence(int n, int a[])
+    {   vector<int> dp;
+   
+    int k=0;
+    for(int i=0;i<n;i++){
+        int idx=lower_bound(dp.begin(),dp.end(),a[i])-dp.begin();
+        if(idx==dp.size())
+        dp.push_back(a[i]);
+        else dp[idx]=a[i];
+    }
+    return dp.size();
+    }
+    int removeStudents(int h[], int n) {
+        int ans= longestSubsequence(n,h);
+        return n-ans;
+    }
