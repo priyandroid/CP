@@ -1,0 +1,67 @@
+bool all9(int num[],int n){
+    for(int i=0;i<n;i++)
+    if(num[i]!=9)return false;
+    return true;
+}
+void add(int num[],int n,int i,int j){
+    int carry=1;
+  
+    for(;i>=0&& j<n && carry==1;i--,j++){
+        num[i]+=carry;
+        if(num[i]>9){
+            num[i]=0;
+            carry=1;
+        }
+        else carry=0;
+        num[j]=num[i];
+    }
+}
+
+	vector<int> generateNextPalindrome(int num[], int n) {
+	   
+	    vector<int> ans;
+      //to handle case of all 9
+	    if(all9(num,n)){
+	        ans.push_back(1);
+	        ans.insert(ans.begin()+1,n-1,0);
+	        ans.push_back(1);
+	        return ans;
+	        
+	    }
+	    //to handle n=1 case
+	    if(n==1)return {num[0]+1};
+	    
+	    int i,j,flag=0,m1,m2;
+	    if(n&1){
+	        m1=m2=n/2;
+	     i=n/2,j=n/2;
+	    }
+	    else {i=n/2-1,j=n/2,m1=i,m2=j;}
+	    
+	   
+	    
+	    
+	    for(;i>=0 && j<n;i--,j++){
+	        if(num[i]!=num[j]){
+	            if(num[i]<num[j])
+	            flag=1;
+	            break;
+	                
+	            }
+	    }
+	    //to handle palindrome
+	    if(i==-1){
+	       add(num,n,m1,m2);
+	    ans.insert(ans.begin(),num,num+n);
+	    return ans;
+	    }
+	    
+	    for(;i>=0&&j<n;i--,j++){
+	        num[j]=num[i];
+	    }
+      
+	    if(flag)add(num,n,m1,m2);
+	    
+	    ans.insert(ans.begin(),num,num+n);
+	    return ans;
+	}
