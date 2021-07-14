@@ -1,0 +1,65 @@
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+class kStacks{
+    vector<int> top,next,a;
+    int avail,n,k;
+    public:
+    kStacks(int n1,int k1){
+        n=n1,k=k1;
+        top.resize(k,-1),next.resize(n),a.resize(n);
+        for(int i=0;i<n-1;i++)next[i]=i+1;
+        next[n-1]=-1;
+        avail=0;
+    }
+    
+    void push(int x,int sn);
+    int pop(int sn);
+};
+
+void kStacks::push(int x,int sn){
+    if(avail==-1){cout<<"Stack overflow!!\n";return ;}
+    a[avail]=x;
+    int y=avail;
+    avail=next[y];
+    next[y]=top[sn];
+   top[sn]=y;
+    
+}
+
+int kStacks::pop(int sn){
+   if(top[sn]==-1){cout<< "Stack underflow\n";
+   return -1;
+   }
+   int x=top[sn];
+   top[sn]=next[top[sn]];
+   next[x]=avail;
+   avail=x;
+    return a[x];
+}
+int main()
+{
+    int n=10,k=3;
+  kStacks ks(n,k);
+
+ks.push(15, 2);
+    ks.push(45, 2);
+  
+    // Let us put some items in stack number 1
+    ks.push(17, 1);
+    ks.push(49, 1);
+    ks.push(39, 1);
+  
+    // Let us put some items in stack number 0
+    ks.push(11, 0);
+    ks.push(9, 0);
+    ks.push(7, 0);
+  
+    cout << "Popped element from stack 2 is " << ks.pop(2) << endl;
+    cout << "Popped element from stack 1 is " << ks.pop(1) << endl;
+    cout << "Popped element from stack 0 is " << ks.pop(0) << endl;
+    ks.push()
+    return 0;
+}
