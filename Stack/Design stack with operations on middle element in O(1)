@@ -1,0 +1,103 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+struct Node{
+    int val;
+    Node*prev;
+    Node* next;
+    Node(int v){
+        val=v;
+        prev=NULL;
+        next=NULL;
+    }
+};
+
+int cnt=0;
+   
+void push(Node** head,Node** mid,int val){
+     
+    Node* temp= new Node(val);
+     if(*head==NULL){
+         *head =temp;
+         *mid=temp;
+     }
+     else{
+         if(cnt %2==0)
+             *mid=(*mid)->next;
+         (*head)->next=temp;
+         temp->prev=*head;
+         *head=(*head)->next;
+     }
+    
+    cnt++;
+    }
+    
+int pop(Node** head,Node** mid){
+    if(*head==NULL)
+    return -1;
+    Node* temp=*head;
+    int x=temp->val;
+    *head=temp->prev;
+    if(*head!=NULL)
+    (*head)->next=NULL;
+    if(cnt&1)
+    *mid=(*mid)->prev;
+    cnt--;
+    free(temp);
+    return x;
+    }
+    
+int findMiddle(Node* mid){
+   if(mid==NULL)return -1;
+    int x=mid->val;
+       return x;
+}
+
+ int deleteMiddle(Node** mid){
+     Node* temp=*mid;
+     int x=temp->val;
+     
+     if(cnt==2){
+         (*mid)=(*mid)->next;
+         temp->next=NULL;
+        
+         
+     }
+     if(cnt==1)
+         
+         *mid=NULL;
+         
+     
+    
+     if(cnt>2){
+     (*mid)->prev->next =(*mid)->next;
+     (*mid)->next->prev=(*mid)->prev;
+     if(cnt&1)*mid=(*mid)->prev;
+     else *mid=(*mid)->next;
+     }
+     cnt--;
+    free(temp);
+     return x;
+ }
+
+int main()
+{   
+    Node* ms=NULL,*mid=NULL;
+    push(&ms, &mid,11);
+    push(&ms, &mid,22);
+    push(&ms,&mid, 33);
+    push(&ms,&mid, 44);
+    push(&ms,&mid, 55);
+    push(&ms,&mid, 66);
+    push(&ms, &mid,77);
+ 
+    cout << "Item popped is " << pop(&ms,&mid) << endl;
+    cout << "Item popped is " << pop(&ms,&mid) << endl;
+    cout << "Item popped is " << pop(&ms,&mid) << endl;
+    cout << "Middle Element is " << findMiddle(mid) << endl;
+    cout << "Deleted Middle Element is "<<deleteMiddle(&mid)<<endl;
+    cout << "Middle Element is " << findMiddle(mid) << endl;
+    push(&ms,&mid,55);
+    cout << "Item popped is " << pop(&ms,&mid) << endl;
+    return 0;
+}
